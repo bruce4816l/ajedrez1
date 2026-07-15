@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Arte del Ajedrez | Maestría y Estrategia</title>
+    <style>
+        /* --- ESTILOS GENERALES Y VARIABLES --- */
+        :root {
+            --bg-dark: #121824;
+            --bg-card: #1e2640;
+            --accent-gold: #d4af37;
+            --accent-gold-hover: #f3e5ab;
+            --text-light: #f4f6f9;
+            --text-gray: #a0aec0;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* --- ENCABEZADO Y NAVEGACIÓN --- */
+        header {
+            background: rgba(18, 24, 36, 0.95);
+            border-bottom: 2px solid var(--accent-gold);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-weight: 500;
+            transition: color var(--transition-speed);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* --- SECCIÓN HERO (PORTADA) --- */
+        .hero {
+            background: linear-gradient(rgba(18, 24, 36, 0.8), rgba(18, 24, 36, 0.9)), 
+                        url('http://googleusercontent.com/image_collection/image_retrieval/12590228488888975366_0') no-repeat center center/cover;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--accent-gold);
+            max-width: 700px;
+            margin-bottom: 2rem;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            background-color: var(--accent-gold);
+            color: var(--bg-dark);
+            padding: 0.8rem 2rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: 'Segoe UI', sans-serif;
+            text-transform: uppercase;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .btn-cta:hover {
+            background-color: var(--accent-gold-hover);
+            transform: translateY(-2px);
+        }
+
+        /* --- CONTENEDOR PRINCIPAL Y SECCIONES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent-gold);
+            margin: 0.8rem auto 0 auto;
+        }
+
+        /* --- SECCIÓN HISTORIA --- */
+        .history-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .history-text p {
+            font-size: 1.15rem;
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: justify;
+        }
+
+        .history-image {
+            width: 100%;
+            height: 350px;
+            border: 3px solid var(--accent-gold);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .history-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- SECCIÓN TÁCTICAS (TARJETAS) --- */
+        .tactics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .tactic-card {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        .tactic-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .tactic-icon {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        .tactic-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .tactic-card p {
+            font-size: 1rem;
+            color: var(--text-gray);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* --- SECCIÓN LEYENDAS --- */
+        .legends-container {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .legend-profile {
+            display: flex;
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            border-left: 5px solid var(--accent-gold);
+        }
+
+        .legend-img {
+            width: 250px;
+            height: 250px;
+            flex-shrink: 0;
+        }
+
+        .legend-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .legend-info {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .legend-name {
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .legend-bio {
+            font-size: 1.05rem;
+            color: var(--text-gray);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* --- PIE DE PÁGINA --- */
+        footer {
+            background-color: #0b0f17;
+            border-top: 2px solid var(--accent-gold);
+            color: var(--text-gray);
+            text-align: center;
+            padding: 3rem 1.5rem;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        .footer-links a:hover {
+            color: var(--text-light);
+        }
+
+        /* --- DISEÑO RESPONSIVO (MÓVILES) --- */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .history-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .legend-profile {
+                flex-direction: column;
+            }
+
+            .legend-img {
+                width: 100%;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Encabezado / Barra de Navegación -->
+    <header>
+        <nav>
+            <a href="#" class="logo">♔ AJEDREZ ELITE</a>
+            <ul class="nav-links">
+                <li><a href="#historia">Orígenes</a></li>
+                <li><a href="#tacticas">Tácticas</a></li>
+                <li><a href="#leyendas">Leyendas</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sección Hero (Presentación principal) -->
+    <section class="hero" id="inicio">
+        <h1>El Arte de la Estrategia Silenciosa</h1>
+        <p>Un juego de mentes, geometría y paciencia milenaria. Desafía tus límites tácticos.</p>
+        <a href="#tacticas" class="btn-cta">Aprender Tácticas</a>
+    </section>
+
+    <!-- Contenedor de Contenido del Sitio -->
+    <main class="container">
+
+        <!-- Sección 1: Historia -->
+        <section id="historia">
+            <h2 class="section-title">El Sendero de los Reyes</h2>
+            <div class="history-grid">
+                <div class="history-text">
+                    <p>Surgido en la antigua India bajo el nombre de <em>Chaturanga</em> alrededor del siglo VI d.C., el ajedrez emprendió un viaje legendario a través de Persia, el mundo árabe y finalmente la Europa medieval, donde adquirió sus reglas definitivas.</p>
+                    <p>Hoy en día, no es simplemente un juego recreativo o un deporte competitivo; representa una profunda disciplina donde la lógica matemática se entrelaza con el instinto psicológico, transformando cada partida en una batalla intelectual infinita.</p>
+                </div>
+                <div class="history-image">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/12590228488888975366_1" alt="Tablero de ajedrez antiguo y elegante">
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Tácticas de Juego -->
+        <section id="tacticas">
+            <h2 class="section-title">Geometría en el Tablero</h2>
+            <div class="tactics-grid">
+                <!-- Tarjeta 1 -->
+                <div class="tactic-card">
+                    <div class="tactic-icon">♞</div>
+                    <h3>La Horquilla</h3>
+                    <p>Un ataque doble simultáneo donde una sola pieza propia (usualmente el ágil caballo) amenaza a dos piezas enemigas al mismo tiempo, forzando la captura inminente.</p>
+                </div>
+                <!-- Tarjeta 2 -->
+                <div class="tactic-card">
+                    <div class="tactic-icon">♝</div>
+                    <h3>La Clavada</h3>
+                    <p>Ocurre cuando una pieza atacante restringe el movimiento de una pieza defensora porque retirarla expondría a una pieza de mayor valor (como el Rey o la Dama).</p>
+                </div>
+                <!-- Tarjeta 3 -->
+                <div class="tactic-card">
+                    <div class="tactic-icon">♜</div>
+                    <h3>La Desviación</h3>
+                    <p>Una genial maniobra táctica que obliga a una pieza clave del oponente a abandonar su casilla de defensa habitual para abrir camino a un mate o ganancia material.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3: Leyendas del Juego -->
+        <section id="leyendas">
+            <h2 class="section-title">Mentes de Leyenda</h2>
+            <div class="legends-container">
+                <!-- Perfil 1 -->
+                <div class="legend-profile">
+                    <div class="legend-img">
+                        <img src="http://googleusercontent.com/image_collection/image_retrieval/12590228488888975366_2" alt="Primer plano de piezas de ajedrez en competencia">
+                    </div>
+                    <div class="legend-info">
+                        <h3 class="legend-name">Bobby Fischer</h3>
+                        <p class="legend-bio">El genio estadounidense que desafió y derrotó a toda la maquinaria soviética en el histórico "Match del Siglo" de 1972 en Reikiavik, marcando un antes y un después en la popularidad global de este deporte mental.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2026 Ajedrez Elite. Desarrollado con dedicación e Inteligencia Artificial.</p>
+        <ul class="footer-links">
+            <li><a href="https://github.com" target="_blank">Código Fuente</a></li>
+            <li><a href="https://chess.com" target="_blank">Aprende Más</a></li>
+        </ul>
+    </footer>
+
+</body>
+</html>
